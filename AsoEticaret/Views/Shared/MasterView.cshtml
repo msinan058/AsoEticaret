@@ -1,0 +1,46 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="indirim,hediye,alışveriş" />
+    @*<meta http-equiv="refresh" content="20" />*@
+    <title>E-ticaret</title>
+    <link rel="shortcut icon" href="~/Assets/images/tabicon.png">
+
+    <link rel="shortcut icon" type="image/x-icon" href="~/Assets/images/tabicon.png">
+    <!-- jQuery -->
+    <script src="~/Assets/js/jquery-2.0.0.min.js" type="text/javascript"></script>
+    <!-- Bootstrap4 files-->
+    <script src="~/Assets/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <link href="~/Assets/css/bootstrap.css?v=1.0" rel="stylesheet" type="text/css" />
+    
+    <!-- Font awesome 5 -->
+    <link href="~/Assets/fonts/fontawesome/css/fontawesome-all.min.css" type="text/css" rel="stylesheet">
+    <!-- plugin: fancybox  -->
+    <script src="~/Assets/plugins/fancybox/fancybox.min.js" type="text/javascript"></script>
+    <link href="~/Assets/plugins/fancybox/fancybox.min.css" type="text/css" rel="stylesheet">
+    <!-- plugin: owl carousel  -->
+    <link href="~/Assets/plugins/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/Assets/plugins/owlcarousel/assets/owl.theme.default.css" rel="stylesheet">
+    <script src="~/Assets/plugins/owlcarousel/owl.carousel.min.js"></script>
+    <!-- custom style -->
+    <link href="~/Assets/css/ui.css?v=1.0" rel="stylesheet" type="text/css" />
+    <link href="~/Assets/css/responsive.css" rel="stylesheet" media="only screen and (max-width: 1200px)" />
+    <!-- custom javascript -->
+    <script src="~/Assets/js/script.js" type="text/javascript"></script>
+
+</head>
+<body>
+    <div>
+        @{Html.RenderAction("PartialHeader", "Master");}
+        @RenderBody()
+        @{Html.RenderAction("PartialFooter", "Master");}
+    </div>
+</body>
+</html>

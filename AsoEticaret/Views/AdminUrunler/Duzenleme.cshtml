@@ -1,0 +1,131 @@
+﻿@model AsoEticaret.Models.Urunler
+@{
+    Layout = "~/Views/Shared/MasterView.cshtml";
+    AsoEticaret.Models.AsoEntities db = new AsoEticaret.Models.AsoEntities();
+}
+<div class="container">
+    <section id="UrunBaslik" class="section-content padding-y bg">
+        <h2>@ViewBag.Title</h2>
+    </section>
+    <section id="KategoriEkleme" class="section-content padding-y bg">
+        <form method="post" enctype="multipart/form-data" action="~/AdminUrunler/Kaydet">
+            <div class="row">
+                <input type="hidden" id="ID" name="ID" value="@Model.ID" />
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="Baslik" class="">Başlık</label></div>
+                        <div class="col-md-12">
+                            <input type="text" id="Baslik" name="Baslik" placeholder="" class="form-control" value="@Model.Baslik" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="AltBaslik" class="">Alt Başlık</label></div>
+                        <div class="col-md-12">
+                            <input type="text" id="AltBaslik" name="AltBaslik" placeholder="" class="form-control" value="@Model.AltBaslik" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="Fiyat" class="">Fiyat</label></div>
+                        <div class="col-md-12">
+                            <input type="number" min="1" id="Fiyat" name="Fiyat" placeholder="0" class="form-control" value="@Model.Fiyat" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="IndirimTutari" class="">İndirim Tutarı</label></div>
+                        <div class="col-md-12">
+                            <input type="number" min="0" id="IndirimTutari" name="IndirimTutari" placeholder="0" class="form-control" value="@Model.IndirimTutari" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="StokMiktar" class="">Stok Miktarı</label></div>
+                        <div class="col-md-12">
+                            <input type="number" pattern="[0-9]" min="0" id="StokMiktar" name="StokMiktar" placeholder="0" class="form-control" value="@Model.StokMiktar" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="Url" class="">Url</label></div>
+                        <div class="col-md-12">
+                            <input type="text" id="Url" name="Url" placeholder="" class="form-control" value="@Model.Url" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="MarkaID" class="">Marka</label></div>
+                        <div class="col-md-12">
+                            <select id="MarkaID" name="MarkaID" style="width:100% !important" required>
+                                <option></option>
+                                @foreach (var item in db.Markalar.OrderBy(o => o.Ad))
+                                {
+                                    <option value="@item.ID" @if (item.ID == Model.MarkaID) { @Html.Raw("Selected") }>@item.Ad</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="KategoriID" class="">Kategori</label></div>
+                        <div class="col-md-12">
+                            <select id="KategoriID" name="KategoriID" style="width:100% !important" required>
+                                <option></option>
+                                @foreach (var item in db.Kategori.OrderBy(o => o.Ad))
+                                {
+                                    <option value="@item.Id" @if (item.Id == Model.KategoriID) { @Html.Raw("Selected") }>@item.Ad</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="Durum" class="">Durum</label></div>
+                        <div class="col-md-12">
+                            <select id="Durum" name="Durum" style="width:100% !important">
+                                <option value="true">Aktif</option>
+                                <option value="false" @if (Model.Durum == false) { @Html.Raw("Selected")    }>Pasif</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="Aciklama" class="">Açıklama</label></div>
+                        <div class="col-md-12">
+                            <input type="text" id="Aciklama" name="Aciklama" placeholder="" class="form-control" value="@Model.Aciklama" />
+                        </div>
+                    </div>
+                </div>
+                <div id="resim-download" class="col-lg-6 col-md-6 col-xs-12">
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="Resim" class="form-control-label">Resim</label></div>
+                        <div class="col-12 col-md-9">
+                            <input type="file" id="Resim" name="Resim" placeholder="" />
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col col-md-3"><label for="Favicon" class="form-control-label">Resim (Görüntü)</label></div>
+                        <div class="col-12 col-md-9">
+                            <img @{ if (Model.UrunResim.Count() > 0) { @Html.Raw("src=/assets/images/urun/" + Model.UrunResim.First().ResimAdi)  ; } } class="img-responsive" accept="image/*" style="max-width:400px;max-height:400px;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <button type="submit" id="btnKaydet" value="Kaydet" class="">Kaydet</button>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>

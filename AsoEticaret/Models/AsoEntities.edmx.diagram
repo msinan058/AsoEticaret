@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="da861564caf44240ad3e8b174c62a11f" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="AsoModel.Kategori" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="AsoModel.FK_Kategori_Kategori" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="AsoModel.Markalar" Width="1.5" PointX="3.375" PointY="2.375" />
+        <EntityTypeShape EntityType="AsoModel.Urunler" Width="1.5" PointX="5.625" PointY="0.75" />
+        <EntityTypeShape EntityType="AsoModel.UrunResim" Width="1.5" PointX="7.875" PointY="1.75" />
+        <AssociationConnector Association="AsoModel.FK_Urunler_Kategori" />
+        <AssociationConnector Association="AsoModel.FK_Urunler_Markalar" />
+        <AssociationConnector Association="AsoModel.FK_UrunResim_Urunler" />
+        <EntityTypeShape EntityType="AsoModel.Uye" Width="1.5" PointX="0.75" PointY="5" />
+        <EntityTypeShape EntityType="AsoModel.UyeAdres" Width="1.5" PointX="3.125" PointY="5" />
+        <AssociationConnector Association="AsoModel.FK_UyeAdres_Uye" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

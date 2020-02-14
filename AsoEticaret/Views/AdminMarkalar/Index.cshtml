@@ -1,0 +1,90 @@
+﻿@model AsoEticaret.Models.Markalar
+@{
+    ViewBag.Title = "AdminMarkalar";
+    Layout = "~/Views/Shared/MasterView.cshtml";
+    AsoEticaret.Models.AsoEntities db = new AsoEticaret.Models.AsoEntities();
+}
+<script type="text/javascript">
+    function MarkaSil(id) {
+        $('#DeleteID').val(id);
+        $('#frmSil').submit();
+    }
+    function MarkaDuzenleme(id) {
+        window.location = '@Url.Action("MarkaDuzenleme","AdminMarkalar")' + '/' + id;
+    }
+</script>
+<div class="container">
+    <section id="KategoriBaslik" class="section-content padding-y bg">
+        <h2>Marka Düzenleme</h2>
+    </section>
+
+    <section id="MarkaEkleme" class="section-content padding-y bg">
+        <form method="post" enctype="multipart/form-data" action="~/AdminMarkalar/MarkaKaydet">
+            <div class="row">
+                <input type="hidden" id="ID" name="ID" value="@Model.ID" />
+                <div class="col-lg-3 col-md-3 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="Ad" class="">Marka Adı</label></div>
+                        <div class="col-md-12">
+                            <input type="text" id="Ad" name="Ad" placeholder="" class="form-control" value="@Model.Ad" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="Sira" class="">Sıra</label></div>
+                        <div class="col-md-12">
+                            <input type="number" id="Sira" name="Sira" placeholder="" class="form-control" value="@Model.Sira" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="Aktif" class="">Durum</label></div>
+                        <div class="col-md-12">
+                            <select id="Durum" name="Durum">
+                                <option value="true">Aktif</option>
+                                <option value="false" @if (Model.Durum == false) { @Html.Raw("Selected")                }>Pasif</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <button type="submit" id="btnKaydet" value="Kaydet" class="">Kaydet</button>
+                </div>
+            </div>
+        </form>
+        <form style="display:none" id="frmSil" method="post" action="~/AdminMarkalar/MarkaSil">
+            <input type="hidden" id="DeleteID" name="DeleteID" />
+        </form>
+    </section>
+    <section id="MarkaTable" class="section-content padding-y bg">
+        <div class="row">
+            <table id="MarkaTable" class="table table-striped table-bordered" style="width:100%">
+                <thead>
+                    <tr>
+                        <th @*width="20%"*@>Marka Adı</th>
+                        <th @*width="10%"*@>Sıra</th>
+                        <th @*width="10%"*@>Durum</th>
+                        <th @*width="10%"*@>Sil</th>
+                        <th @*width="10%"*@>Düzenleme</th>
+                    </tr>
+                </thead>
+                <tbody id="MarkaRowBlock">
+                    @foreach (var item in db.Markalar.ToList())
+                    {
+                        <tr id="MarkaRow_@item.ID">
+                            <td>@item.Ad</td>
+                            <td>@item.Sira</td>
+                            <td>@(item.Durum == true ? "Aktif" : "Pasif")</td>
+                            <td><button type="button" id="btnSil_@item.ID" class="btn btn-danger" onclick="MarkaSil(@(item.ID))">x</button></td>
+                            <td><button type="button" id="btnDuzenleme_@item.ID" class="btn btn-primary" onclick="MarkaDuzenleme(@(item.ID))">Edit</button></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,451 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AsoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2005" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UstId" Type="int" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="200" />
+          <Property Name="Url" Type="nvarchar" MaxLength="200" />
+          <Property Name="Sira" Type="int" />
+          <Property Name="Aktif" Type="bit" />
+        </EntityType>
+        <EntityType Name="Markalar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ad" Type="nvarchar" MaxLength="50" />
+          <Property Name="Sira" Type="int" />
+          <Property Name="Durum" Type="bit" />
+        </EntityType>
+        <EntityType Name="Urunler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Baslik" Type="nvarchar" MaxLength="200" />
+          <Property Name="AltBaslik" Type="nvarchar" MaxLength="200" />
+          <Property Name="Fiyat" Type="float" />
+          <Property Name="IndirimTutari" Type="float" />
+          <Property Name="IndirimliFiyat" Type="float" StoreGeneratedPattern="Computed" />
+          <Property Name="MarkaID" Type="int" />
+          <Property Name="Url" Type="nvarchar" MaxLength="200" />
+          <Property Name="KategoriID" Type="int" />
+          <Property Name="StokMiktar" Type="int" />
+          <Property Name="Durum" Type="bit" />
+          <Property Name="Aciklama" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="UrunResim">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UrunID" Type="int" />
+          <Property Name="ResimAdi" Type="nvarchar" MaxLength="200" />
+          <Property Name="Sira" Type="int" />
+        </EntityType>
+        <EntityType Name="Uye">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdSoyad" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Sifre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="14" Nullable="false" />
+          <Property Name="TC" Type="nvarchar" MaxLength="11" />
+        </EntityType>
+        <EntityType Name="UyeAdres">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="UyeID" Type="int" Nullable="false" />
+          <Property Name="AdresBaslik" Type="nvarchar" MaxLength="50" />
+          <Property Name="IlID" Type="int" />
+          <Property Name="IlceID" Type="int" />
+          <Property Name="Adres" Type="nvarchar" MaxLength="400" />
+          <Property Name="Telefon" Type="nvarchar" MaxLength="14" />
+          <Property Name="PostaKodu" Type="nvarchar" MaxLength="5" />
+        </EntityType>
+        <Association Name="FK_Kategori_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="0..1" />
+          <End Role="Kategori1" Type="Self.Kategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Kategori1">
+              <PropertyRef Name="UstId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Urunler_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="0..1" />
+          <End Role="Urunler" Type="Self.Urunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Urunler">
+              <PropertyRef Name="KategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Urunler_Markalar">
+          <End Role="Markalar" Type="Self.Markalar" Multiplicity="0..1" />
+          <End Role="Urunler" Type="Self.Urunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markalar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Urunler">
+              <PropertyRef Name="MarkaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunResim_Urunler">
+          <End Role="Urunler" Type="Self.Urunler" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UrunResim" Type="Self.UrunResim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UrunResim">
+              <PropertyRef Name="UrunID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UyeAdres_Uye">
+          <End Role="Uye" Type="Self.Uye" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UyeAdres" Type="Self.UyeAdres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UyeAdres">
+              <PropertyRef Name="UyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AsoModelStoreContainer">
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Markalar" EntityType="Self.Markalar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Urunler" EntityType="Self.Urunler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UrunResim" EntityType="Self.UrunResim" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Uye" EntityType="Self.Uye" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UyeAdres" EntityType="Self.UyeAdres" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Kategori_Kategori" Association="Self.FK_Kategori_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Kategori1" EntitySet="Kategori" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Urunler_Kategori" Association="Self.FK_Urunler_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Urunler" EntitySet="Urunler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Urunler_Markalar" Association="Self.FK_Urunler_Markalar">
+            <End Role="Markalar" EntitySet="Markalar" />
+            <End Role="Urunler" EntitySet="Urunler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunResim_Urunler" Association="Self.FK_UrunResim_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="UrunResim" EntitySet="UrunResim" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UyeAdres_Uye" Association="Self.FK_UyeAdres_Uye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="UyeAdres" EntitySet="UyeAdres" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AsoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kategori">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UstId" Type="Int32" />
+          <Property Name="Ad" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Sira" Type="Int32" />
+          <Property Name="Aktif" Type="Boolean" />
+          <NavigationProperty Name="Kategori1" Relationship="Self.FK_Kategori_Kategori" FromRole="Kategori" ToRole="Kategori1" />
+          <NavigationProperty Name="Kategori2" Relationship="Self.FK_Kategori_Kategori" FromRole="Kategori1" ToRole="Kategori" />
+          <NavigationProperty Name="Urunler" Relationship="AsoModel.FK_Urunler_Kategori" FromRole="Kategori" ToRole="Urunler" />
+        </EntityType>
+        <Association Name="FK_Kategori_Kategori">
+          <End Role="Kategori" Type="Self.Kategori" Multiplicity="0..1" />
+          <End Role="Kategori1" Type="Self.Kategori" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Kategori1">
+              <PropertyRef Name="UstId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AsoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kategori" EntityType="Self.Kategori" />
+          <AssociationSet Name="FK_Kategori_Kategori" Association="Self.FK_Kategori_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Kategori1" EntitySet="Kategori" />
+          </AssociationSet>
+          <EntitySet Name="Markalar" EntityType="AsoModel.Markalar" />
+          <EntitySet Name="Urunler" EntityType="AsoModel.Urunler" />
+          <EntitySet Name="UrunResim" EntityType="AsoModel.UrunResim" />
+          <AssociationSet Name="FK_Urunler_Kategori" Association="AsoModel.FK_Urunler_Kategori">
+            <End Role="Kategori" EntitySet="Kategori" />
+            <End Role="Urunler" EntitySet="Urunler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Urunler_Markalar" Association="AsoModel.FK_Urunler_Markalar">
+            <End Role="Markalar" EntitySet="Markalar" />
+            <End Role="Urunler" EntitySet="Urunler" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UrunResim_Urunler" Association="AsoModel.FK_UrunResim_Urunler">
+            <End Role="Urunler" EntitySet="Urunler" />
+            <End Role="UrunResim" EntitySet="UrunResim" />
+          </AssociationSet>
+          <EntitySet Name="Uye" EntityType="AsoModel.Uye" />
+          <EntitySet Name="UyeAdres" EntityType="AsoModel.UyeAdres" />
+          <AssociationSet Name="FK_UyeAdres_Uye" Association="AsoModel.FK_UyeAdres_Uye">
+            <End Role="Uye" EntitySet="Uye" />
+            <End Role="UyeAdres" EntitySet="UyeAdres" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Markalar">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Sira" Type="Int32" />
+          <Property Name="Durum" Type="Boolean" />
+          <NavigationProperty Name="Urunler" Relationship="AsoModel.FK_Urunler_Markalar" FromRole="Markalar" ToRole="Urunler" />
+        </EntityType>
+        <EntityType Name="Urunler">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Baslik" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="AltBaslik" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Fiyat" Type="Double" />
+          <Property Name="IndirimTutari" Type="Double" />
+          <Property Name="IndirimliFiyat" Type="Double" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="MarkaID" Type="Int32" />
+          <Property Name="Url" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="KategoriID" Type="Int32" />
+          <Property Name="StokMiktar" Type="Int32" />
+          <Property Name="Durum" Type="Boolean" />
+          <Property Name="Aciklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Kategori" Relationship="AsoModel.FK_Urunler_Kategori" FromRole="Urunler" ToRole="Kategori" />
+          <NavigationProperty Name="Markalar" Relationship="AsoModel.FK_Urunler_Markalar" FromRole="Urunler" ToRole="Markalar" />
+          <NavigationProperty Name="UrunResim" Relationship="AsoModel.FK_UrunResim_Urunler" FromRole="Urunler" ToRole="UrunResim" />
+        </EntityType>
+        <EntityType Name="UrunResim">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UrunID" Type="Int32" />
+          <Property Name="ResimAdi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Sira" Type="Int32" />
+          <NavigationProperty Name="Urunler" Relationship="AsoModel.FK_UrunResim_Urunler" FromRole="UrunResim" ToRole="Urunler" />
+        </EntityType>
+        <Association Name="FK_Urunler_Kategori">
+          <End Type="AsoModel.Kategori" Role="Kategori" Multiplicity="0..1" />
+          <End Type="AsoModel.Urunler" Role="Urunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategori">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Urunler">
+              <PropertyRef Name="KategoriID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Urunler_Markalar">
+          <End Type="AsoModel.Markalar" Role="Markalar" Multiplicity="0..1" />
+          <End Type="AsoModel.Urunler" Role="Urunler" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Markalar">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Urunler">
+              <PropertyRef Name="MarkaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UrunResim_Urunler">
+          <End Type="AsoModel.Urunler" Role="Urunler" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AsoModel.UrunResim" Role="UrunResim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Urunler">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UrunResim">
+              <PropertyRef Name="UrunID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Uye">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdSoyad" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Sifre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Telefon" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="true" />
+          <Property Name="TC" Type="String" MaxLength="11" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UyeAdres" Relationship="AsoModel.FK_UyeAdres_Uye" FromRole="Uye" ToRole="UyeAdres" />
+        </EntityType>
+        <EntityType Name="UyeAdres">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="UyeID" Type="Int32" Nullable="false" />
+          <Property Name="AdresBaslik" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IlID" Type="Int32" />
+          <Property Name="IlceID" Type="Int32" />
+          <Property Name="Adres" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="Telefon" Type="String" MaxLength="14" FixedLength="false" Unicode="true" />
+          <Property Name="PostaKodu" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Uye" Relationship="AsoModel.FK_UyeAdres_Uye" FromRole="UyeAdres" ToRole="Uye" />
+        </EntityType>
+        <Association Name="FK_UyeAdres_Uye">
+          <End Type="AsoModel.Uye" Role="Uye" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AsoModel.UyeAdres" Role="UyeAdres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Uye">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UyeAdres">
+              <PropertyRef Name="UyeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AsoModelStoreContainer" CdmEntityContainer="AsoEntities">
+          <EntitySetMapping Name="Kategori">
+            <EntityTypeMapping TypeName="AsoModel.Kategori">
+              <MappingFragment StoreEntitySet="Kategori">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UstId" ColumnName="UstId" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="Aktif" ColumnName="Aktif" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Markalar">
+            <EntityTypeMapping TypeName="AsoModel.Markalar">
+              <MappingFragment StoreEntitySet="Markalar">
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="Ad" ColumnName="Ad" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Urunler">
+            <EntityTypeMapping TypeName="AsoModel.Urunler">
+              <MappingFragment StoreEntitySet="Urunler">
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+                <ScalarProperty Name="StokMiktar" ColumnName="StokMiktar" />
+                <ScalarProperty Name="KategoriID" ColumnName="KategoriID" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="MarkaID" ColumnName="MarkaID" />
+                <ScalarProperty Name="IndirimliFiyat" ColumnName="IndirimliFiyat" />
+                <ScalarProperty Name="IndirimTutari" ColumnName="IndirimTutari" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="AltBaslik" ColumnName="AltBaslik" />
+                <ScalarProperty Name="Baslik" ColumnName="Baslik" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrunResim">
+            <EntityTypeMapping TypeName="AsoModel.UrunResim">
+              <MappingFragment StoreEntitySet="UrunResim">
+                <ScalarProperty Name="Sira" ColumnName="Sira" />
+                <ScalarProperty Name="ResimAdi" ColumnName="ResimAdi" />
+                <ScalarProperty Name="UrunID" ColumnName="UrunID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Uye">
+            <EntityTypeMapping TypeName="AsoModel.Uye">
+              <MappingFragment StoreEntitySet="Uye">
+                <ScalarProperty Name="TC" ColumnName="TC" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Sifre" ColumnName="Sifre" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="AdSoyad" ColumnName="AdSoyad" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UyeAdres">
+            <EntityTypeMapping TypeName="AsoModel.UyeAdres">
+              <MappingFragment StoreEntitySet="UyeAdres">
+                <ScalarProperty Name="PostaKodu" ColumnName="PostaKodu" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="IlceID" ColumnName="IlceID" />
+                <ScalarProperty Name="IlID" ColumnName="IlID" />
+                <ScalarProperty Name="AdresBaslik" ColumnName="AdresBaslik" />
+                <ScalarProperty Name="UyeID" ColumnName="UyeID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "UyeGiris";
+    Layout = "~/Views/Shared/MasterView.cshtml";
+}
+<div class="container">
+    <section class="section-content padding-y bg">
+        <h2>Üye Giriş</h2>
+    </section>
+    <section id="UyeGiris" class="section-content padding-y bg">
+        <form id="UyeGirisForm" method="post" action="~/Hesap/Giris">
+            <input type="hidden" id="ReturnUrl" name="returnUrl" value="@ViewBag.ReturnUrl" />
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="Email" class="">Email</label></div>
+                        <div class="col-md-12">
+                            <input type="email" id="Email" name="Email" placeholder="" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-xs-6">
+                    <div class="row form-group">
+                        <div class="col-md-12"><label for="Sifre" class="">Şifre</label></div>
+                        <div class="col-md-12">
+                            <input type="password" id="Sifre" name="Sifre" placeholder="" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-xs-12">
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <button type="submit" id="btnGiris" class="btn btn-primary">Giriş</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+</div>
+
